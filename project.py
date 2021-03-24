@@ -1,3 +1,5 @@
+#A simple neural network that differentiates between angry and calm songs by their text, and then scraps a lyrics website to find a song by a requested artist and mood
+
 """
 insert into angry_songs (track_id, word, num_count) select track_id, word, num_count from lyrics inner join tids on tids.tid=lyrics.track_id inner join tid_tag on tids.id = tid_tag.tid inner join ta
 gs on tags.id = tid_tag.tag where tags.tag='angry';
@@ -184,7 +186,7 @@ db_words = []
 for w in words:
     db_words.append(w[0])
 
-result = requests.get('https://search.azlyrics.com/search.php?q=joan+jett')
+result = requests.get('https://WEBSITE/search.php?q=joan+jett')
 text = BeautifulSoup(result.text, 'lxml')
 
 panels = text.findAll('div', {'class':'panel'})
@@ -209,7 +211,7 @@ for song in songs:
 new_lyrics = []
 angry_titles = []
 for index, song in enumerate(get_songs):
-    result = requests.get(song['href'].replace('..', 'https://www.azlyrics.com'))
+    result = requests.get(song['href'].replace('..', 'https://WEBSITE'))
     main_text = BeautifulSoup(result.text, 'lxml')
     lyric = main_text.find('div', {'class': 'ringtone'})
     next = lyric.findNextSibling()
